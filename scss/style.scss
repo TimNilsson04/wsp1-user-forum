@@ -1,0 +1,112 @@
+@use "reset";
+
+// Variable overrides first
+$primary: rgb(224, 144, 16);
+$enable-shadows: true;
+$prefix: "mo-";
+
+// Then import Bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+// Functions first
+@import "../node_modules/bootstrap/scss/functions";
+
+// Variable overrides second
+$primary: #121212;
+$enable-shadows: true;
+$prefix: "mo-";
+
+// Required Bootstrap imports
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/root";
+
+// Optional components
+@import "../node_modules/bootstrap/scss/utilities";
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/containers";
+@import "../node_modules/bootstrap/scss/grid";
+@import "../node_modules/bootstrap/scss/helpers";
+@import "../node_modules/bootstrap/scss/utilities/api";
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+
+body{
+    background-color: #121212;
+    color: white;
+    width: 100%;
+}
+
+a{
+    color: white;
+    text-decoration: 0;
+}
+
+:root{
+    --mo-secondary-color: rgb(149, 149, 149);
+}
+
+.column{
+   justify-content: center;
+   text-align: center;
+   padding-bottom: 10rem;
+}
+
+
+
+.center{
+    padding-bottom: 15rem;
+    margin-left: 15rem;
+    margin-right: 15rem;
+}
+.box{
+    padding-top: 0.2rem;
+    background-color: rgb(74, 74, 74);
+    margin-top: 1rem;
+    border-radius: 15px;
+    padding-left: 0.5rem;
+    > .right1{
+        text-align: right;
+        margin-bottom: 0.2rem;
+        padding-right: 0.4rem;
+        font-size: 1.5rem;
+    }
+}
+.right{
+    text-align: right;
+    background-color:  rgb(74, 74, 74);
+    padding-right: 0.5rem;
+    border-radius: 10px;
+}
+
+.margin{
+     margin: 0.2rem;
+}
+.row{
+    margin: 0;
+}
+
+label{
+    color: black;
+}
+
+main {
+    width: min(80ch, 100vw - 2rem);
+    margin-inline: auto;
+}
+
+input {
+    width: 19.6%;
+}
+
+.title {
+    margin-left: 39.7%;
+}
+
+select {
+    width: 19.6%;
+}
+
+textarea {
+    width: 39.4%;
+}
+

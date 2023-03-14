@@ -1,0 +1,7 @@
+{% extends "layout.njk" %}
+{% block  content %}
+
+  <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    <p>Skapad av <a href="/users/{{ post.authorId }}">{{ post.username }}</a> den {{ post.createdAt }}</p>
+{% endblock %}
