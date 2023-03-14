@@ -1,6 +1,5 @@
 const express = require('express');
 const { response } = require('express');
-const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const pool = require('../utils/database.js');
@@ -10,12 +9,7 @@ const promisePool = pool.promise();
 module.exports = router;
 
 const mysql = require('mysql2');
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-});
+
 
 
 router.get('/', async function (req, res, next) {

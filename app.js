@@ -1,7 +1,5 @@
 require('dotenv').config();
-const express = require('express');
-const nunjucks = require('nunjucks');
-const app = express();
+
 const port = 4200;
 const bodyParser = require('body-parser')
 const indexRouter = require('./routes/index');
@@ -11,8 +9,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const nunjucks = require('nunjucks');
+const app = express();
 
-const indexRouter = require('./routes/index');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
