@@ -1,6 +1,15 @@
 {% extends "layout.njk" %}
 {% block  content %}
 <main class="container mt-3">
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+          <li class="nav-item"><a href="/" class="nav-link " aria-current="page">Home</a></li>
+          <li class="nav-item"><a href="/new" class="nav-link">Write</a></li>
+          <li class="nav-item"><a href="/forum" class="nav-link">Forum</a></li>
+          <li class="nav-item"><a href="/register" class="nav-link">Register</a></li>
+          <li class="nav-item"><a href="/profile" class="nav-link active">Profile</a></li>
+        </ul>
+      </header>
     <h1>{{ title }}</h1>
     <button type="submit"><a href="/">Home</a></button>
 </main>

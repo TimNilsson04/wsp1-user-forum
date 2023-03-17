@@ -29,11 +29,18 @@ router.get('/forum', async function (req, res, next) {
 });
 
 router.get('/new', async function (req, res, next) {
-    const [users] = await promisePool.query("SELECT * FROM tn03users");
-    res.render('new.njk', {
-        title: 'Nytt inlägg',
-        users,
-    });
+    if (req.session.login == 1) {
+
+        const [users] = await promisePool.query("SELECT * FROM tn03users");
+        res.render('new.njk', {
+            title: 'Nytt inlägg',
+            users,
+        });
+    }
+    else {
+        return res.status(401).send('Access denied')
+    }
+   
 });
 
 router.get('/', async function (req, res, next) {
@@ -92,14 +99,9 @@ router.post('/new', async function (req, res, next) {
 
 
 /* GET home page. */
-router.get('/', async function (req, res, next) {
-    res.render('index.njk', { title: 'Login ALC' });
-
-});
 
 
-router.get('/login', async function (req, res, next) {
-    // const [user] = await promisePool.query('SELECT * FROM dbusers');
+router.get('/index', async function (req, res, next) {
 
     res.render('login.njk', { title: 'Log' });
 });
@@ -131,17 +133,10 @@ router.get('/logout', async function (req, res, next) {
 
 router.post('/logout', async function (req, res, next) {
 
-    // if (req.session.login === 1) {
-    //     req.session.login = 0;
-    //     res.redirect('/')
-    // }
-    // else {
-    //     return res.status(401).send('Access denied')
-    // }
 
 });
 
-router.post('/login', async function (req, res, next) {
+router.post('/index', async function (req, res, next) {
     const { username, password } = req.body;
 
 
@@ -152,7 +147,7 @@ router.post('/login', async function (req, res, next) {
         return res.send('Password is Required')
     }
 
-    const [user] = await promisePool.query('SELECT * FROM dbusers WHERE name = ?', [username]);
+    const [user] = await promisePool.query('SELECT * FROM tn03users WHERE name = ?', [username]);
 
 
     bcrypt.compare(password, user[0].password, function (err, result) {
@@ -160,6 +155,7 @@ router.post('/login', async function (req, res, next) {
 
         if (result === true) {
             // return res.send('Welcome')
+            console.log(username)
             req.session.username = username;
             req.session.login = 1;
             return res.redirect('/profile');
@@ -183,12 +179,8 @@ router.get('/crypt/:password', async function (req, res, next) {
     })
 });
 
-router.get('/signin', function (req, res, next) {
-    res.render('signin.njk', { title: 'sign' });
-});
-
 router.get('/register', function (req, res, next) {
-    res.render('register.njk', { title: 'register' });
+    res.render('register.njk', { title: 'Register' });
 
 });
 
@@ -210,15 +202,15 @@ router.post('/register', async function (req, res, next) {
         return res.send('Passwords do not match')
     }
 
-    const [user] = await promisePool.query('SELECT name FROM dbusers WHERE name = ?', [username]);
+    const [user] = await promisePool.query('SELECT name FROM tn03users WHERE name = ?', [username]);
     console.log({ user })
 
     if (user.length > 0) {
         return res.send('Username is already taken')
     } else {
         bcrypt.hash(password, 10, async function (err, hash) {
-            const [creatUser] = await promisePool.query('INSERT INTO dbusers (name, password) VALUES (?, ?)', [username, hash]);
-            res.redirect('/login')
+            const [creatUser] = await promisePool.query('INSERT INTO tn03users (name, password) VALUES (?, ?)', [username, hash]);
+            res.redirect('/')
         })
     }
 
@@ -233,7 +225,7 @@ router.get('/delete', async function (req, res, next) {
 router.post('/delete', async function (req, res, next) {
     const { username } = req.body;
     if (req.session.login === 1) {
-        const [Delet] = await promisePool.query('DELETE FROM dbusers WHERE name = ?', [username]);
+        const [Delet] = await promisePool.query('DELETE FROM tn03users WHERE name = ?', [username]);
         req.session.login = 0
         res.redirect('/')
     }

@@ -17,18 +17,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+var session = require('express-session')
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+  }))
+  
 nunjucks.configure('views', {
     autoescape: true,
     express: app,
 });
 
 app.use(express.static('public'))
-
-
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencode
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -37,21 +40,5 @@ app.listen(port, () => {
 });
 
 require('dotenv').config();
-
-
-var session = require('express-session')
-
-nunjucks.configure('views', {
-    autoescape: true,
-    express: app
-});
-
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-  }))
-  
-app.use('/', indexRouter);
 
 module.exports = app;

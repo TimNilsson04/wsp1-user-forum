@@ -18297,6 +18297,10 @@ a {
   text-decoration: 0;
 }
 
+.black {
+  color: #121212;
+}
+
 :root {
   --mo-secondary-color: rgb(149, 149, 149);
 }

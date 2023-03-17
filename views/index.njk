@@ -5,8 +5,8 @@
       <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Home</a></li>
       <li class="nav-item"><a href="/new" class="nav-link">Write</a></li>
       <li class="nav-item"><a href="/forum" class="nav-link">Forum</a></li>
-      <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+      <li class="nav-item"><a href="/register" class="nav-link">Register</a></li>
+      <li class="nav-item"><a href="/profile" class="nav-link">Profile</a></li>
     </ul>
   </header>
 
@@ -17,23 +17,20 @@
       <p class="col-lg-10 fs-4">This is a forum built with Tableplus databases. This is a make in progress and i am working on it diligently. Enjoy my product to the fullest and try to make some posts :).</p>
     </div>
     <div class="col-md-10 mx-auto col-lg-5">
-      <form class="p-4 p-md-5 border rounded-3 bg-light">
+      <form class="p-4 p-md-5 border rounded-3 bg-light" action="/index" method="POST">
         <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Email address</label>
+          <input type="text" class="form-control" id="floatingInput" placeholder="username" name="username">
+          <label for="floatingInput">Username</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="password" name="password">
           <label for="floatingPassword">Password</label>
         </div>
         <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
         <hr class="my-4">
-        <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+        <small class="text-muted">Don't have an account <a class="black" href="/register">Click here</a></small>
       </form>
     </div>
   </div>
