@@ -49,7 +49,7 @@ router.get('/new', async function (req, res, next) {
         });
     }
     else {
-        return res.status(401).send('Access denied')
+        return res.redirect('/denied');
     }
 
 });
@@ -130,7 +130,7 @@ router.get('/profile', async function (req, res, next) {
         res.render('profile.njk', { title: 'Profile', name: req.session.username })
     }
     else {
-        return res.status(401).send('Access denied')
+        return res.redirect('/denied');
     }
 
 });
@@ -164,15 +164,21 @@ router.get('/crypt/:password', async function (req, res, next) {
 });
 
 router.get('/register', function (req, res, next) {
+    console.log(req.session.login)
+    if(req.session.login === undefined || req.session.login === 0){
     res.render('register.njk', { title: 'Register' });
-
+    }
+    else{
+        return res.redirect('/denied');
+}
 });
 
 router.post('/register', async function (req, res, next) {
     const { username, password, passwordConfirmation } = req.body;
+    console.log(req.session.login)
+    if(req.session.login === undefined || req.session.login === 0){
 
     if (username === "") {
-        console.log({ username })
         return res.send('Username is Required')
 
     }
@@ -197,6 +203,11 @@ router.post('/register', async function (req, res, next) {
             res.redirect('/')
         })
     }
+}
+else {
+    return res.redirect('/denied');
+}
+
 
 });
 
@@ -214,5 +225,12 @@ router.post('/delete', async function (req, res, next) {
         res.redirect('/')
     }
 });
+
+router.get('/denied', async function (req, res, next) {
+
+    res.render('denied.njk', { title: 'Access denied' });
+
+});
+
 
 module.exports = router;
