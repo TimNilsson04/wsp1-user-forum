@@ -8,3 +8,9 @@ Sedan har jag gjort så att man måste logga in för att kunna göra en post.
 Jag har också fixat nav baren så man kan komma runt hela hemsidan mycket lättare.
 Man kan också skapa nya hemsidor.
 Jag har gjort om inloggnings koden så jag använder min egna databas tabell.
+
+## vecka 12 Tisdag
+Under denna lektion så har jag förbättrat hemsidan med saker som en ny access denied sida.
+Sedan har jag fixat en post sida då man kan gå in och kolla på en post.
+Jag har gjort registrerings sidan snyggare.
+Jag tog bort listan med namn vid skapande av en ny post.
