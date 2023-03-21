@@ -20,6 +20,17 @@ router.get('/', async function (req, res, next) {
     });
 });
 
+router.get('/', async function (req, res, next) {
+    const [rows] = await promisePool.query(`
+    SELECT tn03forum.*, tn03users.name AS username
+    FROM tn03forum
+    JOIN tn03users ON tn03forum.authorId = tn03users.id;`);
+    res.render('forum.njk', {
+        rows: rows,
+        title: 'Forum',
+    });
+});
+
 router.get('/forum', async function (req, res, next) {
     const [rows] = await promisePool.query("SELECT tn03forum.*, tn03users.name FROM tn03forum JOIN tn03users ON tn03forum.authorId = tn03users.id ORDER BY createdAt DESC");
     res.render('forum.njk', {
@@ -40,19 +51,20 @@ router.get('/new', async function (req, res, next) {
     else {
         return res.status(401).send('Access denied')
     }
-   
+
 });
 
-router.get('/', async function (req, res, next) {
-    const [rows] = await promisePool.query(`
-    SELECT tn03forum.*, tn03users.name AS username
-    FROM tn03forum
-    JOIN tn03users ON tn03forum.authorId = tn03users.id;`);
-    res.render('forum.njk', {
-        rows: rows,
-        title: 'Forum',
-    });
+router.post('/new', async function (req, res, next) {
+    const { author, title, content } = req.body;
+    if (req.session.login == 1) {
+        const [rows] = await promisePool.query('INSERT INTO tn03forum (authorId, title, content) VALUES (?, ?, ?)',
+        [req.session.userId, title, content]);
+    res.redirect('/forum');
+    }
+    // kör frågan för att skapa ett nytt inlägg
+     // den här raden kan vara bra att kommentera ut för felsökning, du kan då använda tex. res.json({rows}) för att se vad som skickas tillbaka från databasen
 });
+
 
 router.get('/post/:id', async function (req, res) {
     const [rows] = await promisePool.query(
@@ -69,41 +81,45 @@ router.get('/post/:id', async function (req, res) {
     });
 });
 
-module.exports = router;
-
-
-router.post('/new', async function (req, res, next) {
-    const { author, title, content } = req.body;
-
-    // Skapa en ny författare om den inte finns men du behöver kontrollera om användare finns!
-    let [user] = await promisePool.query('SELECT * FROM tn03users WHERE id = ?', [author]);
-    if (!user) {
-        user = await promisePool.query('INSERT INTO tn03users (name) VALUES (?)', [author]);
-    }
-
-    // user.insertId bör innehålla det nya ID:t för författaren
-
-    console.log(user[0])
-
-    const userId = user.insertId || user[0].id;
-
-    // kör frågan för att skapa ett nytt inlägg
-    const [rows] = await promisePool.query('INSERT INTO tn03forum (authorId, title, content) VALUES (?, ?, ?)', [userId, title, content]);
-    res.redirect('/'); // den här raden kan vara bra att kommentera ut för felsökning, du kan då använda tex. res.json({rows}) för att se vad som skickas tillbaka från databasen
-});
-
-
-//Login
-
-
-
-
-/* GET home page. */
-
 
 router.get('/index', async function (req, res, next) {
 
     res.render('login.njk', { title: 'Log' });
+});
+
+router.post('/index', async function (req, res, next) {
+    const { username, password } = req.body;
+
+
+    if (username.length == 0) {
+        return res.send('Username is Required')
+    }
+    if (password.length == 0) {
+        return res.send('Password is Required')
+    }
+
+    const [user] = await promisePool.query('SELECT * FROM tn03users WHERE name = ?', [username]);
+
+
+    bcrypt.compare(password, user[0].password, function (err, result) {
+        //logga in eller nåt
+
+        if (result === true) {
+            // return res.send('Welcome')
+            console.log(username)
+            req.session.username = username;
+            req.session.login = 1;
+            req.session.userId = user[0].id;
+            return res.redirect('/profile');
+        }
+
+        else {
+            return res.send("Invalid username or password")
+        }
+
+    })
+
+
 });
 
 router.get('/profile', async function (req, res, next) {
@@ -136,39 +152,7 @@ router.post('/logout', async function (req, res, next) {
 
 });
 
-router.post('/index', async function (req, res, next) {
-    const { username, password } = req.body;
 
-
-    if (username.length == 0) {
-        return res.send('Username is Required')
-    }
-    if (password.length == 0) {
-        return res.send('Password is Required')
-    }
-
-    const [user] = await promisePool.query('SELECT * FROM tn03users WHERE name = ?', [username]);
-
-
-    bcrypt.compare(password, user[0].password, function (err, result) {
-        //logga in eller nåt
-
-        if (result === true) {
-            // return res.send('Welcome')
-            console.log(username)
-            req.session.username = username;
-            req.session.login = 1;
-            return res.redirect('/profile');
-        }
-
-        else {
-            return res.send("Invalid username or password")
-        }
-
-    })
-
-
-});
 
 router.get('/crypt/:password', async function (req, res, next) {
     const password = req.params.password

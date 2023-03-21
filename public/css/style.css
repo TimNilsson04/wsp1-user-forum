@@ -18301,6 +18301,15 @@ a {
   color: #121212;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.link {
+  text-decoration: underline;
+}
+
 :root {
   --mo-secondary-color: rgb(149, 149, 149);
 }

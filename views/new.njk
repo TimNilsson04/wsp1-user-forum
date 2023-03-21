@@ -14,12 +14,6 @@
     <label for="author">Författare</label>
     <label for="title" class="title">Titel</label>
     <br>
-    <p>Username: </p>
-    <select name="author" id="author">
-      {% for user in users %}
-      <option value="{{ user.id }}">{{ user.name }}</option>
-  {% endfor %}
-    </select>
     <input type="text" name="title" id="title" placeholder="Title">
     <br>
     <label for="content">Innehåll</label>
