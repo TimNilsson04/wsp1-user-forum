@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const pool = require('../utils/database.js');
 const session = require('express-session');
 const promisePool = pool.promise();
+const validator = require('validator')
 
 module.exports = router;
 
@@ -56,13 +57,40 @@ router.get('/new', async function (req, res, next) {
 
 router.post('/new', async function (req, res, next) {
     const { author, title, content } = req.body;
+    const response = {
+        errors:[],
+    };
     if (req.session.login == 1) {
+        if (!title) response.errors.push('Title is required');
+        if (!content)  response.errors.push('Content is required');
+        if (title && title.length <= 3)
+        response.errors.push('Title must be at least 3 characters');
+        if (content && content.length <= 10)
+        response.errors.push('Content must be at least 10 characters');
+            
+     
+        if ( response.errors.length === 0) {
+            console.log(response.errors)
+            // sanitize title och body, tvätta datan
+            const sanitize = (str) => {
+                let temp = str.trim();
+                temp = validator.stripLow(temp);
+                temp = validator.escape(temp);
+                return temp;
+            };
+            if (title) sanitizedTitle = sanitize(title);
+            if (content) sanitizedContent = sanitize(content);
+
+        
         const [rows] = await promisePool.query('INSERT INTO tn03forum (authorId, title, content) VALUES (?, ?, ?)',
-        [req.session.userId, title, content]);
-    res.redirect('/forum');
+        [req.session.userId, sanitizedTitle, sanitizedContent]);
+        res.redirect('/forum');
+        }
     }
-    // kör frågan för att skapa ett nytt inlägg
-     // den här raden kan vara bra att kommentera ut för felsökning, du kan då använda tex. res.json({rows}) för att se vad som skickas tillbaka från databasen
+    else
+    {
+        return res.redirect('/denied')
+    }
 });
 
 
@@ -106,7 +134,7 @@ router.post('/index', async function (req, res, next) {
 
         if (result === true) {
             // return res.send('Welcome')
-            console.log(username)
+           
             req.session.username = username;
             req.session.login = 1;
             req.session.userId = user[0].id;
@@ -164,7 +192,7 @@ router.get('/crypt/:password', async function (req, res, next) {
 });
 
 router.get('/register', function (req, res, next) {
-    console.log(req.session.login)
+    
     if(req.session.login === undefined || req.session.login === 0){
     res.render('register.njk', { title: 'Register' });
     }
@@ -175,25 +203,24 @@ router.get('/register', function (req, res, next) {
 
 router.post('/register', async function (req, res, next) {
     const { username, password, passwordConfirmation } = req.body;
-    console.log(req.session.login)
+    
     if(req.session.login === undefined || req.session.login === 0){
 
     if (username === "") {
         return res.send('Username is Required')
-
     }
-    else if (password.length === 0) {
-        return res.send('Password is Required')
+    else if (password.length < 8) {
+        return res.send('Password needs at least 8 characters')
     }
-    else if (passwordConfirmation.length === 0) {
-        return res.send('Password is Required')
+    else if (passwordConfirmation.length < 8) {
+        return res.send('PasswordConfirmation needs at least 8 characters')
     }
     else if (password !== passwordConfirmation) {
         return res.send('Passwords do not match')
     }
 
     const [user] = await promisePool.query('SELECT name FROM tn03users WHERE name = ?', [username]);
-    console.log({ user })
+    
 
     if (user.length > 0) {
         return res.send('Username is already taken')

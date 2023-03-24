@@ -15,8 +15,8 @@
     {% for row in rows %}
     <a href="/post/{{ row.id }}">
       <div class="box">
-        <h4> {{ row.title }} </h4>
-        <p class="margin">{{ row.content }}</p>
+        <h4> {{ row.title | urlize | safe }} </h4>
+        <p class="margin" >{{ row.content | urlize | safe }}</p>
         <p class="right1">{{ row.name }} </p>
       </div>
       <div class="right">
