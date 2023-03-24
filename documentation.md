@@ -14,3 +14,8 @@ Under denna lektion så har jag förbättrat hemsidan med saker som en ny access
 Sedan har jag fixat en post sida då man kan gå in och kolla på en post.
 Jag har gjort registrerings sidan snyggare.
 Jag tog bort listan med namn vid skapande av en ny post.
+
+## vecka 12 Fredag
+Under denna lektion så har jag jobbat med validering vid skapande av en ny post på forumet.
+Nu kan man ej ändra databasen från skapande av en ny post.
+Sedan har jag kopierat in det nya testet men har ej hunnit testa det.
