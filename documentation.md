@@ -19,3 +19,8 @@ Jag tog bort listan med namn vid skapande av en ny post.
 Under denna lektion så har jag jobbat med validering vid skapande av en ny post på forumet.
 Nu kan man ej ändra databasen från skapande av en ny post.
 Sedan har jag kopierat in det nya testet men har ej hunnit testa det.
+
+## vecka 13 Tisdag
+Förra lektionen så jobbade jag med valideringen och gjorde så att man inte kan skriva in en sql fråga i nya posts.
+Denna lektione så ska jag försöka göra testet.
+
