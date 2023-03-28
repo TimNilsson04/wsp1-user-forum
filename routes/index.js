@@ -106,6 +106,7 @@ router.get('/post/:id', async function (req, res) {
     res.render('post.njk', {
         post: rows[0],
         title: 'Forum',
+        loggedin: req.session.login,
     });
 });
 

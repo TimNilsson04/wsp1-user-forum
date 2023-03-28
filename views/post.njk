@@ -21,6 +21,10 @@
     <br>
   </div>
   <p>{{ post.createdAt }}</p>
+  {% if loggedin === 1 %}
+<button class="btn btn-primary">Kommenter</button>
+  {% endif %}
     </div>
+  
 
 {% endblock %}

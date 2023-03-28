@@ -18306,6 +18306,11 @@ a {
   grid-template-columns: auto auto;
 }
 
+.grid2 {
+  display: grid;
+  grid-template-columns: auto;
+}
+
 .link {
   text-decoration: underline;
 }
