@@ -4,13 +4,15 @@
     "private": true,
     "main": "app.js",
     "scripts": {
-        "start": "nodemon -e njk,js & npm run scss",
+        "start": "node ./bin/www",
+        "dev": "nodemon -e njk,js & npm run scss",
         "scss": "sass --watch scss:public/css"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "bad-words": "^3.0.4",
         "bcrypt": "^5.1.0",
         "bootstrap": "^5.3.0-alpha1",
         "cookie-parser": "~1.4.4",

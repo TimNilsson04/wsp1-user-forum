@@ -6,6 +6,9 @@ const pool = require('../utils/database.js');
 const session = require('express-session');
 const promisePool = pool.promise();
 const validator = require('validator')
+var Filter = require('bad-words'),
+    filter = new Filter();
+    filter.addWords('agel')
 
 module.exports = router;
 
@@ -78,8 +81,8 @@ router.post('/new', async function (req, res, next) {
                 temp = validator.escape(temp);
                 return temp;
             };
-            if (title) sanitizedTitle = sanitize(title);
-            if (content) sanitizedContent = sanitize(content);
+            if (title) sanitizedTitle = filter.clean(sanitize(title));
+            if (content) sanitizedContent = filter.clean(sanitize(content));
 
         
         const [rows] = await promisePool.query('INSERT INTO tn03forum (authorId, title, content) VALUES (?, ?, ?)',
@@ -137,7 +140,7 @@ router.post('/comment', async function (req, res, next) {
             temp = validator.escape(temp);
             return temp;
         };
-        if (content) sanitizedContent = sanitize(content);
+        if (content) sanitizedContent = filter.clean(sanitize(content));
     } else {
         return res.render('denied.njk')
     }

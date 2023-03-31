@@ -13,11 +13,11 @@
 <div class="center3">
   <div class="box">
     <div class="grid">
-  <h1>{{ post.title }}</h1>
+  <h1>{{ post.title | urlize | safe}}</h1>
   <h2 class="right"> <a class="link" href="/users/{{ post.authorId }}">{{ post.username }}</a></h2>
   </div>
   <br>
-    <h5>{{ post.content }}</h5>
+    <h5>{{ post.content | urlize | safe }}</h5>
     <br>
   </div>
   <p>{{ post.createdAt }}</p>
