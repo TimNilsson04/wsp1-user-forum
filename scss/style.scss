@@ -43,6 +43,12 @@ a{
     text-decoration: 0;
 }
 
+ul{
+    list-style: none;
+    margin: 0%;
+    padding: 0%;
+}
+
 .black{
     color: #121212;
 }
@@ -72,9 +78,14 @@ a{
 }
 
 
-
 .center{
     padding-bottom: 15rem;
+    margin-left: 15rem;
+    margin-right: 15rem;
+}
+
+.center3{
+    padding-bottom: 0.5rem;
     margin-left: 15rem;
     margin-right: 15rem;
 }

@@ -21,27 +21,16 @@
     <br>
   </div>
   <p>{{ post.createdAt }}</p>
-  {% if loggedin === 1 %}
-<a class="btn btn-primary" href="/comment/ {{ post.id }}">Kommentera</a>
-  {% endif %}
-    </div>
 
-
-    <ul>
-      {% for row in rows %}
-      <li>
-    <div class="center3">
-      <div class="box">
-      <div class="grid">
-      <h5> <a class="link" href="/users/{{ post.authorId }}"><p>{{ row.name }}</p> </a></h5>
-    </div>
-        <h5 >{{ row.ucomment | urlize | safe }}</h5>
-      </div>
-    <p>{{ row.createdAt }}</p>
-    </li>
-    {% endfor %}
-    </ul>
-  </div>
+  <form action="/comment" method="post">
+    <textarea name="postId" id="postId" cols="0" rows="0" placeholder="postId" hidden>{{ post.id }}</textarea>
+        <label for="content">Innehåll</label>
+        <br>
+        <textarea name="content" id="content" cols="30" rows="10" placeholder="Write here, at least 10 characters"></textarea>
+        <br>
+        <button class="btn btn-primary" type="submit">Kommentera</button>
+    </form>
+</div>
   
 
 {% endblock %}
